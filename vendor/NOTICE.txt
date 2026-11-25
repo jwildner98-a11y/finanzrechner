@@ -1,0 +1,3 @@
+Mitgelieferte Open-Source-Bibliotheken (lokal, kein Netzwerkzugriff):
+- pdf.js 3.11.174 (Apache-2.0) – vendor/pdfjs
+- tesseract.js 5.1.1 + tesseract.js-core 5.1.1 (Apache-2.0), deutsche Sprachdaten (tessdata, Apache-2.0) – vendor/tesseract
