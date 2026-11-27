@@ -1,11 +1,11 @@
 /* Neuigkeiten-Fenster nach einem Update. Bei jeder spürbaren Änderung NEWS_ID und NEWS ersetzen. */
 (() => {
   'use strict';
-  const NEWS_ID = '2026-11-27-gestaltung';
+  const NEWS_ID = '2026-11-28-ui';
   const TITLE = 'Neu im Finanzrechner';
   const NEWS = [
-    ['Neues Aussehen:', 'Titelbild mit Sparschatz, dazu neue Farben und Karten.'],
-    ['Neue Symbole:', 'Die Leiste unten ist ruhiger und klarer.']
+    ['UI-Refresh:', 'Vektor-Header mit Sparschwein-Motiv, neue Farbpalette und Kartenlayout.'],
+    ['Navigation entschlackt:', 'Neue Linien-Icons in der unteren Leiste.']
   ];
   const KEY = 'finanzrechner.news';   // je App eigen: alle Apps teilen sich dieselbe Adresse
   try { if (localStorage.getItem(KEY) === NEWS_ID) return; } catch (e) { return; }
