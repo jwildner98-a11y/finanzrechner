@@ -73,7 +73,7 @@ function cleanState(d) {
   return {
     app: 'finanzrechner', version: 2,
     settings: {
-      names: [String(nm[0] || 'Person 1').slice(0, 20), String(nm[1] || 'Person 2').slice(0, 20)],
+      names: [String(!nm[0] || nm[0] === 'Person 1' ? 'Pan' : nm[0]).slice(0, 20), String(!nm[1] || nm[1] === 'Person 2' ? 'Tinkerbell' : nm[1]).slice(0, 20)],
       mode: ['half', 'income', 'custom'].includes(st.mode) ? st.mode : 'half',
       p1pct: isFinite(pct) ? Math.min(100, Math.max(0, Math.round(pct))) : 50
     },
@@ -488,7 +488,7 @@ document.addEventListener('change', ev => {
   const m = /^([tr])-(cat|person|date)$/.exec(t.id || '');
   if (m && dlg.open) { refreshBudgetSelect(m[1]); return; }
   if (ui.tab !== 'settings' || dlg.open) return;
-  if (t.id === 'n1' || t.id === 'n2') { state.settings.names[t.id === 'n1' ? 0 : 1] = t.value.trim().slice(0, 20) || (t.id === 'n1' ? 'Person 1' : 'Person 2'); save(); render(); }
+  if (t.id === 'n1' || t.id === 'n2') { state.settings.names[t.id === 'n1' ? 0 : 1] = t.value.trim().slice(0, 20) || (t.id === 'n1' ? 'Pan' : 'Tinkerbell'); save(); render(); }
   else if (t.name === 'mode') { state.settings.mode = t.value; save(); toast('Aufteilung gespeichert'); }
   else if (t.id === 'pct') { const v = Number(String(t.value).replace(',', '.')); state.settings.p1pct = isFinite(v) ? Math.min(100, Math.max(0, Math.round(v))) : 50; save(); render(); }
 });
