@@ -192,7 +192,7 @@ function splitText() {
 }
 function emptyState() {
   return `<div class="card empty"><h2>Willkommen</h2><p>Noch keine Einträge. Lege Einnahmen und Ausgaben an – alle Daten bleiben nur auf diesem Gerät.</p>
-  <div class="actions" style="justify-content:center"><button class="btn primary" data-act="new">Ersten Eintrag anlegen</button><button class="btn" data-act="demo">Demodaten laden</button><button class="btn" data-act="import">Backup importieren</button></div></div>`;
+  <div class="actions" style="justify-content:center"><button class="btn primary" data-act="new">Ersten Eintrag anlegen</button><button class="btn" data-act="import">Backup importieren</button></div></div>`;
 }
 const fab = () => '<button class="fab" data-act="new" aria-label="Neuer Eintrag">+</button>';
 
@@ -304,7 +304,7 @@ function viewSettings() {
   <div class="card"><h2>Backup</h2><p class="small mute">Daten liegen in eurer privaten Cloud und in diesem Browser. Letztes Backup: ${esc(last)}. Sichere regelmäßig – z. B. in iCloud Drive oder per AirDrop an die Partnerin.</p>
   <div class="actions"><button class="btn primary" data-act="export">Backup exportieren</button><button class="btn" data-act="import">Backup importieren</button></div></div>
   <div class="card"><h2>Hinweise</h2><p class="small mute">iPhone: In Safari „Teilen“ → „Zum Home-Bildschirm“. Die installierte App hat einen eigenen Speicher – Daten dort per Backup-Import übernehmen. Safari kann Daten nach längerer Nichtnutzung löschen; Backups schützen davor.</p></div>
-  <div class="card"><h2>Daten</h2><div class="actions"><button class="btn" data-act="demo">Demodaten laden</button><button class="btn danger" data-act="wipe">Alle Daten löschen</button></div></div>
+  <div class="card"><h2>Daten</h2><div class="actions"><button class="btn danger" data-act="wipe">Alle Daten löschen</button></div></div>
   <p class="small mute" style="text-align:center">Finanzrechner v1 · private Cloud, kein Tracking</p>`;
 }
 
@@ -421,21 +421,6 @@ function submitDeposit() {
   if (isNaN(v)) return toast('Ungültiger Betrag');
   g.saved = round2(g.saved + v); save(); closeDialog(); render();
 }
-function demoData() {
-  const y = nowMonth().slice(0, 4);
-  const E = (person, name, amount, type, category, interval = 'monthly', from = '', to = '', note = '') => ({ id: uid(), person, name, amount, type, category, interval, from, to, note });
-  const demo = cleanState({ settings: { names: ['Alex', 'Sam'], mode: 'income', p1pct: 50 }, entries: [
-    E('p1', 'Gehalt (Demo)', 2400, 'income', 'Sonstiges'), E('p2', 'Gehalt (Demo)', 1900, 'income', 'Sonstiges'), E('joint', 'Kindergeld (Demo)', 250, 'income', 'Sonstiges'),
-    E('joint', 'Miete (Demo)', 1000, 'fix', 'Wohnen'), E('joint', 'Strom (Demo)', 80, 'fix', 'Energie & Medien'), E('joint', 'Lebensmittel (Demo)', 450, 'variabel', 'Lebensmittel'),
-    E('joint', 'Hausrat-Versicherung (Demo)', 120, 'fix', 'Versicherung', 'yearly'), E('p1', 'Auto-Steuer (Demo)', 90, 'fix', 'Mobilität', 'quarterly'),
-    E('p1', 'Streaming (Demo)', 12.99, 'abo', 'Abos'), E('p2', 'Musik (Demo)', 10.99, 'abo', 'Abos'), E('p2', 'Handyvertrag (Demo)', 19.99, 'abo', 'Abos'),
-    E('p2', 'Ratenzahlung Laptop (Demo)', 60, 'rate', 'Kredite & Raten', 'monthly', y + '-01', y + '-12', 'befristet'),
-    E('joint', 'Sparen Urlaub (Demo)', 100, 'sparen', 'Sparen'), E('p1', 'Sparen Notgroschen (Demo)', 150, 'sparen', 'Sparen'), E('p2', 'Freizeit (Demo)', 80, 'variabel', 'Freizeit')
-  ], txs: [], goals: [{ id: uid(), name: 'Urlaub (Demo)', target: 2000, saved: 600 }, { id: uid(), name: 'Notgroschen (Demo)', target: 5000, saved: 1250 }] });
-  const food = demo.entries.find(e => e.name.startsWith('Lebensmittel'));
-  demo.txs = ['Supermarkt (Demo)', 'Bäckerei (Demo)'].map((shop, i) => cleanTx({ date: nowMonth() + '-0' + (i + 1), amount: i ? 8.4 : 62.4, person: 'joint', shop, category: 'Lebensmittel', budgetId: food.id }));
-  return demo;
-}
 async function exportData() {
   const stamp = new Date().toISOString().slice(0, 10);
   state.lastBackup = new Date().toISOString(); save();
@@ -460,10 +445,6 @@ function importData() {
     } catch (e) { toast('Import fehlgeschlagen: ' + e.message); }
   };
   inp.click();
-}
-function loadDemo() {
-  const go = () => { state = demoData(); save(); ui.tab = 'overview'; render(); toast('Demodaten geladen (erfunden)'); };
-  if (state.entries.length || state.goals.length || state.txs.length) confirmDialog('Die aktuellen Daten werden durch erfundene Demodaten ersetzt. Exportiere vorher ein Backup, falls nötig.', 'Ersetzen', go); else go();
 }
 
 /* ---------- Events ---------- */
@@ -491,7 +472,6 @@ document.addEventListener('click', ev => {
     case 'logout': confirmDialog('Abmelden?', 'Abmelden', () => Cloud.logout()); break;
     case 'export': exportData(); break;
     case 'import': importData(); break;
-    case 'demo': loadDemo(); break;
     case 'wipe': confirmDialog('ALLE Einträge, Buchungen und Sparziele auf diesem Gerät löschen? Das kann nicht rückgängig gemacht werden.', 'Alles löschen', () => { state = cleanState({ settings: state.settings }); save(); render(); toast('Alle Daten gelöscht'); }); break;
   }
 });
@@ -516,19 +496,6 @@ dlg.addEventListener('click', ev => { if (ev.target === dlg) closeDialog(); });
 
 /* ---------- Start ---------- */
 render();
-/* Optional: lokale Startdaten. Nur wenn seed.json neben der App liegt (nicht im Repo/Hosting!), der Speicher leer ist und noch nie befüllt wurde. */
-(async () => {
-  try {
-    if (state.entries.length || state.goals.length || state.txs.length || localStorage.getItem(KEY + '.seeded')) return;
-    const r = await fetch('seed.json', { cache: 'no-store' });
-    if (!r.ok) return;
-    const d = await r.json();
-    if (!d || d.app !== 'finanzrechner' || !Array.isArray(d.entries)) return;
-    state = cleanState(d); save();
-    try { localStorage.setItem(KEY + '.seeded', '1'); } catch (e) { /* egal */ }
-    render(); toast('Startdaten geladen');
-  } catch (e) { /* kein seed.json vorhanden – normal */ }
-})();
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 // Automatische Aktualisierung: beim Öffnen nach einer neuen Version suchen; wird sie übernommen, einmal neu laden.
 if ('serviceWorker' in navigator) {
