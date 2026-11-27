@@ -1,11 +1,11 @@
 /* Neuigkeiten-Fenster nach einem Update. Bei jeder spürbaren Änderung NEWS_ID und NEWS ersetzen. */
 (() => {
   'use strict';
-  const NEWS_ID = '2026-11-27';
+  const NEWS_ID = '2026-11-27-gestaltung';
   const TITLE = 'Neu im Finanzrechner';
   const NEWS = [
-    ['Ohne Beispieldaten:', 'Die Demodaten sind aus der App entfernt.'],
-    ['Updates von selbst:', 'Beim Öffnen holt sich die App die neue Version und zeigt hier, was sich geändert hat.']
+    ['Neues Aussehen:', 'Titelbild mit Sparschatz, dazu neue Farben und Karten.'],
+    ['Neue Symbole:', 'Die Leiste unten ist ruhiger und klarer.']
   ];
   const KEY = 'finanzrechner.news';   // je App eigen: alle Apps teilen sich dieselbe Adresse
   try { if (localStorage.getItem(KEY) === NEWS_ID) return; } catch (e) { return; }

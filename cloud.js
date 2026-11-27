@@ -125,10 +125,10 @@
     return new Promise(resolve => {
       const css = document.createElement('style');
       css.textContent = '#cl{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:#f4f6f8;color:#16202a;font:16px/1.4 -apple-system,BlinkMacSystemFont,system-ui,sans-serif}' +
-        '@media(prefers-color-scheme:dark){#cl{background:#14181c;color:#eaeff3}#cl form{background:#1d2329!important}#cl select,#cl input{background:#14181c!important;color:#eaeff3!important;border-color:#2b333b!important}}' +
-        '#cl form{width:100%;max-width:340px;background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 24px rgba(0,0,0,.12)}#cl h1{font-size:22px;margin:0 0 4px}#cl p{margin:0 0 16px;color:#6a7885;font-size:14px}' +
-        '#cl label{display:block;font-size:13px;margin:12px 0 4px;color:#6a7885}#cl select,#cl input{width:100%;font:inherit;padding:12px;border:1px solid #d5dce2;border-radius:12px;background:#fff;color:inherit}' +
-        '#cl button{width:100%;margin-top:18px;padding:13px;border:0;border-radius:12px;font:inherit;font-weight:600;background:#2563eb;color:#fff}#cl button:disabled{opacity:.6}#cl .err{color:#e5484d;font-size:14px;margin:12px 0 0;min-height:1em}';
+        '@media(prefers-color-scheme:dark){#cl{background:#14181c;color:#eaeff3}#cl form{background-color:#1d2329!important}#cl select,#cl input{background:#14181c!important;color:#eaeff3!important;border-color:#2b333b!important}}' +
+        '#cl form{width:100%;max-width:340px;background:#fff url(kopf.svg) center top/100% 140px no-repeat;border-radius:20px;overflow:hidden;padding:160px 24px 24px;box-shadow:0 4px 24px rgba(0,0,0,.12)}#cl h1{font-size:22px;margin:0 0 4px}#cl p{margin:0 0 16px;color:#6a7885;font-size:14px}' +
+        '#cl label{display:block;font-size:13px;margin:12px 0 4px;color:#6a7885}#cl select,#cl input{box-sizing:border-box;width:100%;font:inherit;padding:12px;border:1px solid #d5dce2;border-radius:12px;background:#fff;color:inherit}' +
+        '#cl button{width:100%;margin-top:18px;padding:13px;border:0;border-radius:12px;font:inherit;font-weight:600;background:#23415e;color:#fff}#cl button:disabled{opacity:.6}#cl .err{color:#e5484d;font-size:14px;margin:12px 0 0;min-height:1em}';
       document.head.appendChild(css);
       const box = document.createElement('div'); box.id = 'cl';
       const opts = USERS.map(([v, l]) => '<option value="' + v + '">' + l + '</option>').join('');
