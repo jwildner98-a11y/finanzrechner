@@ -1,5 +1,5 @@
 // Offline-first: alle App-Dateien werden beim Installieren zwischengespeichert.
-const CACHE = 'finanzrechner-v7';
+const CACHE = 'finanzrechner-v8';
 const FILES = ['./', 'index.html', 'news.js', 'style.css', 'app.js', 'cloud.js', 'receipt.js', 'vendor/pdfjs/pdf.min.js', 'vendor/pdfjs/pdf.worker.min.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
@@ -14,7 +14,7 @@ self.addEventListener('install', e => {
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+    .then(keys => Promise.all(keys.filter(k => k.startsWith('finanzrechner-') && k !== CACHE).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {
