@@ -1,5 +1,5 @@
 // Offline-first: alle App-Dateien werden beim Installieren zwischengespeichert.
-const CACHE = 'finanzrechner-v3';
+const CACHE = 'finanzrechner-v4';
 const FILES = ['./', 'index.html', 'style.css', 'app.js', 'cloud.js', 'receipt.js', 'vendor/pdfjs/pdf.min.js', 'vendor/pdfjs/pdf.worker.min.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
@@ -20,9 +20,11 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
-  e.respondWith(caches.match(req, { ignoreSearch: true }).then(hit => hit || fetch(req).then(res => {
-    const copy = res.clone();
-    caches.open(CACHE).then(c => c.put(req, copy));
-    return res;
-  }).catch(() => caches.match('index.html'))));
+  // Große Zusatzdateien (vendor/) zuerst aus dem Speicher, alles andere zuerst aus dem Netz.
+  const store = (res) => { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); return res; };
+  if (req.url.includes('/vendor/')) {
+    e.respondWith(caches.match(req, { ignoreSearch: true }).then(hit => hit || fetch(req).then(store)));
+  } else {
+    e.respondWith(fetch(req).then(store).catch(() => caches.match(req, { ignoreSearch: true }).then(hit => hit || caches.match('index.html'))));
+  }
 });

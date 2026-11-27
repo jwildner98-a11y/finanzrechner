@@ -530,4 +530,12 @@ render();
   } catch (e) { /* kein seed.json vorhanden – normal */ }
 })();
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+// Automatische Aktualisierung: beim Öffnen nach einer neuen Version suchen; wird sie übernommen, einmal neu laden.
+if ('serviceWorker' in navigator) {
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (hadController && !reloaded) { reloaded = true; location.reload(); }
+  });
+  navigator.serviceWorker.register('sw.js').then((reg) => reg.update()).catch(() => {});
+}
