@@ -1,5 +1,5 @@
 // Offline-first: alle App-Dateien werden beim Installieren zwischengespeichert.
-const CACHE = 'finanzrechner-v15';
+const CACHE = 'finanzrechner-v16';
 const FILES = ['./', 'hilfe.js', 'index.html', 'news.js', 'style.css', 'kopf.svg', 'app.js', 'cloud.js', 'receipt.js', 'vendor/pdfjs/pdf.min.js', 'vendor/pdfjs/pdf.worker.min.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
@@ -27,4 +27,15 @@ self.addEventListener('fetch', e => {
   } else {
     e.respondWith(fetch(req).then(store).catch(() => caches.match(req, { ignoreSearch: true }).then(hit => hit || caches.match('index.html'))));
   }
+});
+
+// --- Web-Push (gemeinsam) ---
+self.addEventListener('push', (event) => {
+  let d = {};
+  try { d = event.data ? event.data.json() : {}; } catch (e) {}
+  event.waitUntil(self.registration.showNotification(d.title || 'Nachricht', { body: d.text || '', data: { url: d.url || '/' } }));
+});
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(clients.openWindow((event.notification.data && event.notification.data.url) || '/'));
 });
