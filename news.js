@@ -1,13 +1,12 @@
 /* Neuigkeiten-Fenster nach einem Update. Bei jeder spürbaren Änderung NEWS_ID und NEWS ersetzen. */
 (() => {
   'use strict';
-  const NEWS_ID = '2026-11-28-hilfe';
+  const NEWS_ID = '2026-11-28-push-neustart';
   const TITLE = 'Neu im Finanzrechner';
   const NEWS = [
-    ['Hilfe-Knopf unten rechts:', 'Schreib direkt, was nicht klappt. Die Nachricht landet per Telegram und E-Mail bei Julius, mit App und Uhrzeit.'],
-    ['App-Icon neu gerendert:', 'Gleiche Farben und Motive wie das Titelbild.'],
-    ['UI-Refresh:', 'Vektor-Header mit Sparschwein-Motiv, neue Farbpalette und Kartenlayout.'],
-    ['Navigation entschlackt:', 'Neue Linien-Icons in der unteren Leiste.']
+    ['Erinnerungen aufs Handy:', 'Unten links kannst du Push-Benachrichtigungen aktivieren. Die Anmeldung wird beim Server gespeichert und beim Öffnen geprüft.'],
+    ['Support oben rechts:', 'Für Wünsche, Fehler und Fragen bitte den Support-Knopf nutzen. Das ist der direkte Weg zu Julius.'],
+    ['Anmeldung neu:', 'Alle Geräte melden sich einmal neu an, damit der Schlüssel überall stimmt.'],
   ];
   const KEY = 'finanzrechner.news';   // je App eigen: alle Apps teilen sich dieselbe Adresse
   try { if (localStorage.getItem(KEY) === NEWS_ID) return; } catch (e) { return; }
