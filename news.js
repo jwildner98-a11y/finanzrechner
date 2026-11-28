@@ -1,9 +1,10 @@
 /* Neuigkeiten-Fenster nach einem Update. Bei jeder spürbaren Änderung NEWS_ID und NEWS ersetzen. */
 (() => {
   'use strict';
-  const NEWS_ID = '2026-11-28-icon';
+  const NEWS_ID = '2026-11-28-hilfe';
   const TITLE = 'Neu im Finanzrechner';
   const NEWS = [
+    ['Hilfe-Knopf unten rechts:', 'Schreib direkt, was nicht klappt. Die Nachricht landet per Telegram und E-Mail bei Julius, mit App und Uhrzeit.'],
     ['App-Icon neu gerendert:', 'Gleiche Farben und Motive wie das Titelbild.'],
     ['UI-Refresh:', 'Vektor-Header mit Sparschwein-Motiv, neue Farbpalette und Kartenlayout.'],
     ['Navigation entschlackt:', 'Neue Linien-Icons in der unteren Leiste.']
