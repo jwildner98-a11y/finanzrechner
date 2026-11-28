@@ -1,5 +1,5 @@
 // Offline-first: alle App-Dateien werden beim Installieren zwischengespeichert.
-const CACHE = 'finanzrechner-v14';
+const CACHE = 'finanzrechner-v15';
 const FILES = ['./', 'hilfe.js', 'index.html', 'news.js', 'style.css', 'kopf.svg', 'app.js', 'cloud.js', 'receipt.js', 'vendor/pdfjs/pdf.min.js', 'vendor/pdfjs/pdf.worker.min.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
